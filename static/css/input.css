@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+@theme {
+    --color-accent: #2196F3;
+    --color-tgray: #8C8C8C;
+    --color-border: #EAEAEA
+}
+
+.material-symbols-outlined {
+    font-size: revert-layer;
+}
+
+body {
+    font-family: "Poppins";
+    color: #27272A;
+}
+
+
