@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BillIn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download,help,link,person,store,receipt_long,search_off"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/output.css')}}">
+</head>
+<body class="bg-white font-['Poppins']">
+    <div class="w-full">
+        <div class="flex items-center p-4">
+            <img src="{{url_for('static', filename='img/billin_logo.png')}}" alt="billin_logo" width="50">
+            <p class="text-xl font-semibold bg-linear-to-b from-[#6EE7B7] to-[#2563EB] bg-clip-text text-transparent">BillIn Web</p>
+            <span class="material-symbols-outlined text-accent text-2xl ml-auto">download</span>
+        </div>
+
+        <div class="flex flex-col items-center px-6 pb-10">
+            <div class="flex items-center justify-center bg-accent/20 rounded-2xl w-32 h-32 mt-8">
+                <span class="material-symbols-outlined text-accent text-8xl">link</span>
+            </div>
+            <p class="font-semibold text-center mt-6">Bergabung ke Tagihan Kelompok</p>
+            <p class="text-gray-400 text-center text-sm mt-1">Bergabung melalui link yang dibagikan oleh teman anda</p>
+            <!-- Link -->
+            <div class="flex items-center w-full bg-gray-100 rounded-lg p-3 mt-6">
+                <input id="linkInput" type="text" placeholder="Masukkan link undangan"
+                    class="flex-1 min-w-0 bg-transparent text-sm outline-none placeholder:text-gray-400">
+                <button id="btnCari" type="button" class="bg-accent text-white text-xs rounded px-4 py-1 ml-2">Cari</button>
+            </div>
+
+            <!-- Hasil pencarian -->
+            <div id="stateEmpty" class="flex flex-col items-center justify-center w-full bg-gray-100 rounded-xl py-16 mt-2">
+                <span class="material-symbols-outlined text-gray-200"
+                    style="font-size: 96px; font-variation-settings: 'FILL' 1;">receipt_long</span>
+                <p class="font-semibold text-gray-200 text-lg mt-2">Hasil Pencarian</p>
+            </div>
+
+            <!-- Kondisi Tidak Ditemukan -->
+            <div id="stateNotFound" class="hidden flex-col items-center justify-center w-full bg-gray-100 rounded-xl py-16 mt-4">
+                <span class="material-symbols-outlined text-gray-200" style="font-size: 72px;">search_off</span>
+                <p class="font-semibold text-gray-200 text-lg mt-2">Tidak ditemukan</p>
+            </div>
+
+            <!-- Kondisi ditemukan -->
+            <div id="stateFound" class="hidden flex-col gap-3 w-full bg-gray-100 rounded-xl p-4 mt-4">
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center justify-center bg-accent/20 rounded-lg w-14 h-14 shrink-0">
+                        <span class="material-symbols-outlined text-accent text-3xl">store</span>
+                    </div>
+                    <div class="flex flex-col justify-center bg-white rounded-lg px-3 h-14 w-full">
+                        <p id="groupName" class="font-medium"></p>
+                        <p id="groupCreator" class="text-xs text-gray-400"></p>
+                    </div>
+                </div>
+                <div class="flex flex-col bg-white rounded-lg p-4 gap-2">
+                    <p class="font-semibold">Ringkasan</p>
+                    <div class="flex flex-col gap-2 text-sm">
+                        <div class="flex">
+                            <p id="subtotalLabel">Subtotal</p>
+                            <p id="subtotalValue" class="ml-auto"></p>
+                        </div>
+                        <div class="flex">
+                            <p id="pajakLabel">Pajak</p>
+                            <p id="pajakValue" class="ml-auto"></p>
+                        </div>
+                        <div class="flex">
+                            <p id="diskonLabel">Diskon</p>
+                            <p id="diskonValue" class="ml-auto"></p>
+                        </div>
+                        <div class="flex text-accent font-semibold">
+                            <p>Grand Total</p>
+                            <p id="grandTotalValue" class="ml-auto"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-end mt-3">
+                        <div class="flex flex-col">
+                        <div id="memberAvatars" class="flex -space-x-2"></div>
+                        <p id="groupMembers" class="text-[8px] text-gray-400 mt-1"></p>
+                    </div>
+                        <button type="button" class="bg-accent text-white text-xs rounded-md px-5 py-2 ml-auto">Bergabung</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const groups = {
+        "www.linkundanganmakan.com": {
+            name: "Tan-panama Coffe",
+            creator: "Melinda",
+            members: [
+                { name: "Ayu Dewi", photo: "{{url_for('static', filename='img/profile_user.jpg')}}" },
+                { name: "Budi",     photo: "" },
+                { name: "Citra",    photo: "" },
+                { name: "Dedi",     photo: "" }
+            ],
+            tax: 14,
+            discount: 6,
+            items: [
+                { name: "Nasi Goreng Babi",  price: 30000, qty: 3 },
+                { name: "Nasi Goreng Sayur", price: 25000, qty: 2 },
+                { name: "Nasi Goreng Ayam",  price: 28000, qty: 3 },
+                { name: "Nasi Goreng Aja",   price: 22000, qty: 2 }
+            ]
+        }
+    };
+
+    const input = document.getElementById('linkInput');
+    const states = {
+        empty:    document.getElementById('stateEmpty'),
+        notFound: document.getElementById('stateNotFound'),
+        found:    document.getElementById('stateFound')
+    };
+    
+    function show(name) {
+        for (const key in states) {
+            const active = key === name;
+            states[key].classList.toggle('hidden', !active);
+            states[key].classList.toggle('flex', active);
+        }
+    }
+
+    function rupiah(angka) {
+        return 'Rp.' + Math.round(angka).toLocaleString('id-ID');
+    }
+
+    function renderRingkasan(group) {
+        const jumlahItem = group.items.reduce((total, i) => total + i.qty, 0);
+        const subtotal   = group.items.reduce((total, i) => total + i.price * i.qty, 0);
+        const pajak      = subtotal * group.tax / 100;
+        const diskon     = subtotal * group.discount / 100;
+        const grandTotal = subtotal + pajak - diskon;
+
+        document.getElementById('subtotalLabel').textContent = 'Subtotal (' + jumlahItem + ' Item)';
+        document.getElementById('subtotalValue').textContent = rupiah(subtotal);
+
+        document.getElementById('pajakLabel').textContent = 'Pajak (' + group.tax + '%)';
+        document.getElementById('pajakValue').textContent = rupiah(pajak);
+
+        document.getElementById('diskonLabel').textContent = 'Diskon (' + group.discount + '%)';
+        document.getElementById('diskonValue').textContent = rupiah(diskon);
+
+        document.getElementById('grandTotalValue').textContent = rupiah(grandTotal);
+    }
+
+    function cari() {
+        const link = input.value.trim();
+
+        if (!link) {
+            show('empty');
+            return;
+        }
+
+        const group = groups[link];
+        if (!group) {
+            show('notFound');
+            return;
+        }
+
+        document.getElementById('groupName').textContent = group.name;
+        document.getElementById('groupCreator').textContent = 'Dibuat oleh ' + group.creator;
+        renderMembers(group.members);
+
+        renderRingkasan(group);
+
+        show('found');
+    }
+
+    function renderMembers(members) {
+    const box = document.getElementById('memberAvatars');
+    box.innerHTML = '';
+
+    const circle = 'flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 border-2 border-white overflow-hidden';
+
+    // Maksimal 2 user ditampilkan
+    members.slice(0, 2).forEach(m => {
+        const el = document.createElement('div');
+        el.className = circle;
+        el.title = m.name;
+
+        if (m.photo) {
+            const img = document.createElement('img');
+            img.src = m.photo;
+            img.alt = m.name;
+            img.className = 'w-full h-full object-cover';
+            el.appendChild(img);
+        } else {
+            const icon = document.createElement('span');
+            icon.className = 'material-symbols-outlined text-gray-400 text-lg';
+            icon.textContent = 'person';
+            el.appendChild(icon);
+        }
+        box.appendChild(el);
+    });
+
+    const sisa = members.length - 2;
+        if (sisa > 0) {
+            const more = document.createElement('div');
+            more.className = circle + ' text-[10px] text-gray-400';
+            more.textContent = sisa + '+';
+            box.appendChild(more);
+        }
+        const text = document.getElementById('groupMembers');
+        if (members.length === 0) {
+            text.textContent = 'Belum ada anggota';
+        } else if (members.length === 1) {
+            text.textContent = members[0].name;
+        } else {
+            text.textContent = members[0].name + ' dan ' + (members.length - 1) + ' orang lainnya';
+        }
+    }
+
+    document.getElementById('btnCari').addEventListener('click', cari);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') cari(); });
+</script>
+</html>
