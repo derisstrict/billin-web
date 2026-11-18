@@ -12,267 +12,330 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/output.css')}}">
 </head>
 <body class="bg-gray-100">
-    <div>
-        <div class="flex bg-white p-1 items-center p-4">
-            <img src="{{url_for('static', filename='img/billin_logo.png')}}" alt="billin_logo" width="50">
-            <p class="text-xl font-semibold bg-gradient-to-b from-[#6EE7B7] to-[#2563EB] bg-clip-text text-transparent">BillIn</p>
-            <span class="material-symbols-outlined text-accent text-2xl ml-auto">download</span>
-        </div>
-        <div class="flex flex-col p-6">
-            <div class="flex bg-white p-4 rounded-2xl border-1 border-stone-200 w-full">
-                <div class="flex flex-col w-full">
-                    <div class="flex items-center">
-                        <div class="flex bg-accent/10 p-1 rounded-lg h-fit">
-                            <span class="text-2xl material-symbols-outlined text-accent">store</span>
-                        </div>
-                        <div class="flex flex-col ml-2 w-full">
-                            <p class="font-semibold">Toko Roti Ceri</p>
-                            <p class="text-xs text-tgray">Senin, 21 Oktober 2023 | 16.12</p>
-                        </div>
-                        <span class="material-symbols-outlined text-accent text-xl">edit_square</span>
-                    </div>
-                    <div class="flex mt-5">
-                        <p class="text-sm">Grand Total</p>
-                        <p class="ml-auto text-lg font-semibold">Rp. 728.000</p>
-                    </div>
-                    <div class="flex flex-col gap-1 bg-gray-100 p-3 rounded-xl">
-                        <div class="flex">
-                            <p class="text-sm">Subtotal</p>
-                            <p class="ml-auto text-sm">Rp. 616.000</p>
-                        </div>
-                        <div class="flex">
-                            <p class="text-sm">Pajak</p>
-                            <p class="ml-auto text-sm">Rp. 43.120</p>
-                        </div>
-                        <div class="flex">
-                            <p class="text-sm">Layanan</p>
-                            <p class="ml-auto text-sm">Rp. 48.320</p>
-                        </div>
+    <div class="flex bg-white p-1 items-center p-4">
+        <img src="{{url_for('static', filename='img/billin_logo.png')}}" alt="billin_logo" width="50">
+        <p class="text-xl font-semibold bg-gradient-to-b from-[#6EE7B7] to-[#2563EB] bg-clip-text text-transparent">BillIn</p>
+        <span class="material-symbols-outlined text-accent text-2xl ml-auto">download</span>
+    </div>
+    <div class="flex items-center justify-center">
+        <div class="w-full p-6 md:flex md:gap-6 md:w-fit">
+            <div class="flex flex-col">
+                <div class="flex bg-white p-4 rounded-2xl border-1 border-stone-200 w-full">
+                    <div class="flex flex-col w-full">
                         <div class="flex items-center">
-                            <span class="material-symbols-outlined text-accent text-lg mr-1">percent_discount</span>
-                            <p class="text-sm">Diskon</p>
-                            <p class="ml-auto text-sm text-accent">- Rp. 61.600</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="text-sm font-semibold mt-3">Anggota</p>
-            <div class="flex flex-col bg-white p-4 rounded-2xl border-1 border-stone-200 w-full mt-3">
-                <div class="flex w-full items-center">
-                    <div class="flex gap-1 items-center bg-accent rounded-xl px-3 py-1">
-                        <span class="material-symbols-outlined text-white text-xl">manage_accounts</span>
-                        <p class="text-white text-sm">Kelola</p>
-                    </div>
-                    <div class="flex items-center ml-auto">
-                        <span class="material-symbols-outlined text-xl">person</span>
-                        <p class="text-xs ml-1">3 orang</p>
-                    </div>
-                </div>
-                <div class="flex flex-wrap gap-x-4 gap-y-2 mt-4">
-                    <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
-                        <div class="flex bg-accent/10 items-center p-1 rounded-full">
-                            <span class="material-symbols-outlined text-accent text-xl">person</span>
-                        </div>
-                        <p class="ml-2 text-accent font-medium text-sm"> Ayu (Kamu)</p>
-                    </div>
-                    <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
-                        <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
-                            <span class="material-symbols-outlined text-fuchsia-700 text-xl">person</span>
-                        </div>
-                        <p class="ml-2 text-fuchsia-700 text-sm"> Budi</p>
-                    </div>
-                    <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
-                        <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
-                            <span class="material-symbols-outlined text-lime-600 text-xl">person</span>
-                        </div>
-                        <p class="ml-2 text-lime-600 text-sm"> Citra</p>
-                    </div>
-                </div>
-            </div>
-            <p class="text-sm font-semibold mt-3">Makanan (3 item)</p>
-            <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-3">
-                <div class="flex items-center">
-                    <span class="material-symbols-outlined text-green-600 text-lg mr-1">workspaces</span>
-                    <p class="text-green-600 text-xs">Berbagi</p>
-                    <span class="material-symbols-outlined text-xl ml-auto">person</span>
-                    <p class="text-xs ml-1">3 orang</p>
-                </div>
-                <div class="flex">
-                    <p class="font-medium">1x Salt Bread (Family Size)</p>
-                    <p class="ml-auto font-medium">Rp. 102.000</p>
-                </div>
-                <div class="border-1 border-border"></div>
-                <div class="flex items-center">
-                    <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
-                        <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-accent/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-accent text-lg">person</span>
+                            <div class="flex bg-accent/10 p-1 rounded-lg h-fit">
+                                <span class="text-2xl material-symbols-outlined text-accent">store</span>
                             </div>
-                            <p class="ml-2 text-accent font-medium text-xs">Ayu</p>
-                        </div>
-                        <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                            <div class="flex flex-col ml-2 w-full">
+                                <p class="font-semibold">Toko Roti Ceri</p>
+                                <p class="text-xs text-tgray">Senin, 21 Oktober 2023 | 16.12</p>
                             </div>
-                            <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
+                            <span class="material-symbols-outlined text-accent text-xl">edit_square</span>
                         </div>
-                        <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-lime-600 text-xs">Citra</p>
+                        <div class="flex mt-5">
+                            <p class="text-sm">Grand Total</p>
+                            <p class="ml-auto text-lg font-semibold">Rp. 728.000</p>
                         </div>
-                    </div>
-                    <p class="text-xs text-tgray ml-auto">Rp. 34.000/orang</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
-                <div class="flex items-center">
-                    <span class="material-symbols-outlined text-violet-600 text-lg mr-1">groups</span>
-                    <p class="text-violet-600 text-xs">Masing-masing</p>
-                    <span class="material-symbols-outlined text-xl ml-auto">person</span>
-                    <p class="text-xs ml-1">2 orang</p>
-                </div>
-                <div class="flex">
-                    <p class="font-medium">2x Nasi Goreng Udang</p>
-                    <p class="ml-auto font-medium">Rp. 75.000</p>
-                </div>
-                <div class="border-1 border-border"></div>
-                <div class="flex items-center">
-                    <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
-                        <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-accent/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-accent text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-accent font-medium text-xs">Ayu</p>
-                        </div>
-                        <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-lime-600 text-xs">Citra</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-tgray ml-auto">Rp. 34.000/orang</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
-                <div class="flex">
-                    <p class="font-medium">2x Mie Ayam Bakso Sapi</p>
-                    <p class="ml-auto font-medium">Rp. 75.000</p>
-                </div>
-                <div class="border-1 border-border"></div>
-                <div class="flex items-center">
-                    <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
-                        <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="text-sm font-semibold mt-3">Minuman (2 item)</p>
-            <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
-                <div class="flex items-center">
-                    <span class="material-symbols-outlined text-violet-600 text-lg mr-1">groups</span>
-                    <p class="text-violet-600 text-xs">Masing-masing</p>
-                    <span class="material-symbols-outlined text-xl ml-auto">person</span>
-                    <p class="text-xs ml-1">2 orang</p>
-                </div>
-                <div class="flex">
-                    <p class="font-medium">2x Es Kelapa Jeruk</p>
-                    <p class="ml-auto font-medium">Rp. 56.000</p>
-                </div>
-                <div class="border-1 border-border"></div>
-                <div class="flex items-center">
-                    <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
-                        <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-accent/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-accent text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-accent font-medium text-xs">Ayu</p>
-                        </div>
-                        <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-lime-600 text-xs">Citra</p>
-                        </div>
-                    </div>
-                    <p class="text-xs text-tgray ml-auto">Rp. 28.000/orang</p>
-                </div>
-            </div>
-            <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
-                <div class="flex">
-                    <p class="font-medium">2x Es Campur Tanpa Gula</p>
-                    <p class="ml-auto font-medium">Rp. 28.000</p>
-                </div>
-                <div class="border-1 border-border"></div>
-                <div class="flex items-center">
-                    <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
-                        <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
-                            <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
-                                <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
-                            </div>
-                            <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <p class="text-sm font-semibold mt-3">Hasil</p>
-            <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-3">
-                <p class="text-sm">Rincian pengeluaran kamu</p>
-                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full">
-                    <div class="flex items-center">
-                        <span class="material-symbols-outlined text-2xl mr-3">receipt_long</span>
-                        <div class="flex flex-col gap-1 w-full">
-                            <div class="flex items-center">
-                                <p class="text-sm font-semibold">Total Pengeluaran</p>
-                                <p class="ml-auto">Rp. 208.005</p>
-                            </div>
-                            <div class="border-1 border-border my-1"></div>
+                        <div class="flex flex-col gap-1 bg-gray-100 p-3 rounded-xl">
                             <div class="flex">
                                 <p class="text-sm">Subtotal</p>
-                                <p class="ml-auto text-sm">Rp. 198.100</p>
+                                <p class="ml-auto text-sm">Rp. 616.000</p>
                             </div>
                             <div class="flex">
                                 <p class="text-sm">Pajak</p>
-                                <p class="ml-auto text-sm">Rp. 13.867</p>
+                                <p class="ml-auto text-sm">Rp. 43.120</p>
                             </div>
                             <div class="flex">
                                 <p class="text-sm">Layanan</p>
-                                <p class="ml-auto text-sm">Rp. 15.848</p>
+                                <p class="ml-auto text-sm">Rp. 48.320</p>
                             </div>
-                            <div class="flex">
-                                <span class="material-symbols-outlined text-lg text-accent mr-1">percent_discount</span>
+                            <div class="flex items-center">
+                                <span class="material-symbols-outlined text-accent text-lg mr-1">percent_discount</span>
                                 <p class="text-sm">Diskon</p>
-                                <p class="ml-auto text-accent text-sm ">- Rp. 19.810</p>
+                                <p class="ml-auto text-sm text-accent">- Rp. 61.600</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <p class="text-sm">Rincian pengeluaran teman</p>
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center border-1 border-fuchsia-700/30 rounded-2xl px-2 py-1">
-                        <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
-                            <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                <p class="text-sm font-semibold mt-3">Anggota</p>
+                <div class="flex flex-col bg-white p-4 rounded-2xl border-1 border-stone-200 w-full mt-3">
+                    <div class="flex w-full items-center">
+                        <div class="flex gap-1 items-center bg-accent rounded-xl px-3 py-1">
+                            <span class="material-symbols-outlined text-white text-xl">manage_accounts</span>
+                            <p class="text-white text-sm">Kelola</p>
                         </div>
-                        <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
-                        <p class="ml-auto text-fuchsia-600 text-sm">Rp. 94.000*</p>
-                    </div>
-                    <div class="flex items-center border-1 border-lime-600/30 rounded-2xl px-2 py-1">
-                        <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
-                            <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
+                        <div class="flex items-center ml-auto">
+                            <span class="material-symbols-outlined text-xl">person</span>
+                            <p class="text-xs ml-1">3 orang</p>
                         </div>
-                        <p class="ml-2 text-lime-600 text-xs">Citra</p>
-                        <p class="ml-auto text-lime-600 text-sm">Rp. 99.500*</p>
                     </div>
-                    <p class="text-[10px]">*Sudah termasuk pajak, biaya layanan dan diskon.</p>
-                    <div class="flex bg-accent items-center justify-center py-1 rounded-xl mt-2">
-                        <span class="material-symbols-outlined text-white text-lg mr-2">save</span>
-                        <p class="text-sm text-white">Simpan</p>
+                    <div class="flex flex-wrap gap-x-4 gap-y-2 mt-4">
+                        <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
+                            <div class="flex bg-accent/10 items-center p-1 rounded-full">
+                                <span class="material-symbols-outlined text-accent text-xl">person</span>
+                            </div>
+                            <p class="ml-2 text-accent font-medium text-sm"> Ayu (Kamu)</p>
+                        </div>
+                        <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
+                            <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
+                                <span class="material-symbols-outlined text-fuchsia-700 text-xl">person</span>
+                            </div>
+                            <p class="ml-2 text-fuchsia-700 text-sm"> Budi</p>
+                        </div>
+                        <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
+                            <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
+                                <span class="material-symbols-outlined text-lime-600 text-xl">person</span>
+                            </div>
+                            <p class="ml-2 text-lime-600 text-sm"> Citra</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <p class="text-sm font-semibold mt-3">Hasil</p>
+                    <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-3">
+                        <p class="text-sm">Rincian pengeluaran kamu</p>
+                        <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full">
+                            <div class="flex items-center">
+                                <span class="material-symbols-outlined text-2xl mr-3">receipt_long</span>
+                                <div class="flex flex-col gap-1 w-full">
+                                    <div class="flex items-center">
+                                        <p class="text-sm font-semibold">Total Pengeluaran</p>
+                                        <p class="ml-auto">Rp. 208.005</p>
+                                    </div>
+                                    <div class="border-1 border-border my-1"></div>
+                                    <div class="flex">
+                                        <p class="text-sm">Subtotal</p>
+                                        <p class="ml-auto text-sm">Rp. 198.100</p>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="text-sm">Pajak</p>
+                                        <p class="ml-auto text-sm">Rp. 13.867</p>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="text-sm">Layanan</p>
+                                        <p class="ml-auto text-sm">Rp. 15.848</p>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="material-symbols-outlined text-lg text-accent mr-1">percent_discount</span>
+                                        <p class="text-sm">Diskon</p>
+                                        <p class="ml-auto text-accent text-sm ">- Rp. 19.810</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-sm">Rincian pengeluaran teman</p>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center border-1 border-fuchsia-700/30 rounded-2xl px-2 py-1">
+                                <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
+                                <p class="ml-auto text-fuchsia-600 text-sm">Rp. 94.000*</p>
+                            </div>
+                            <div class="flex items-center border-1 border-lime-600/30 rounded-2xl px-2 py-1">
+                                <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-lime-600 text-xs">Citra</p>
+                                <p class="ml-auto text-lime-600 text-sm">Rp. 99.500*</p>
+                            </div>
+                            <p class="text-[10px]">*Sudah termasuk pajak, biaya layanan dan diskon.</p>
+                            <div class="flex bg-accent items-center justify-center py-1 rounded-xl mt-2">
+                                <span class="material-symbols-outlined text-white text-lg mr-2">save</span>
+                                <p class="text-sm text-white">Simpan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:bg-white md:rounded-xl md:px-4 md:h-fit md:pb-4">
+                <p class="text-sm font-semibold mt-3">Makanan (3 item)</p>
+                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-3">
+                    <div class="flex items-center">
+                        <span class="material-symbols-outlined text-green-600 text-lg mr-1">workspaces</span>
+                        <p class="text-green-600 text-xs">Berbagi</p>
+                        <span class="material-symbols-outlined text-xl ml-auto">person</span>
+                        <p class="text-xs ml-1">3 orang</p>
+                    </div>
+                    <div class="flex">
+                        <p class="font-medium">1x Salt Bread (Family Size)</p>
+                        <p class="ml-auto font-medium">Rp. 102.000</p>
+                    </div>
+                    <div class="border-1 border-border"></div>
+                    <div class="flex items-center">
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                            <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-accent/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-accent text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-accent font-medium text-xs">Ayu</p>
+                            </div>
+                            <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
+                            </div>
+                            <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-lime-600 text-xs">Citra</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-tgray ml-auto">Rp. 34.000/orang</p>
+                    </div>
+                </div>
+                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
+                    <div class="flex items-center">
+                        <span class="material-symbols-outlined text-violet-600 text-lg mr-1">groups</span>
+                        <p class="text-violet-600 text-xs">Masing-masing</p>
+                        <span class="material-symbols-outlined text-xl ml-auto">person</span>
+                        <p class="text-xs ml-1">2 orang</p>
+                    </div>
+                    <div class="flex">
+                        <p class="font-medium">2x Nasi Goreng Udang</p>
+                        <p class="ml-auto font-medium">Rp. 75.000</p>
+                    </div>
+                    <div class="border-1 border-border"></div>
+                    <div class="flex items-center">
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                            <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-accent/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-accent text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-accent font-medium text-xs">Ayu</p>
+                            </div>
+                            <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-lime-600 text-xs">Citra</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-tgray ml-auto">Rp. 34.000/orang</p>
+                    </div>
+                </div>
+                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
+                    <div class="flex">
+                        <p class="font-medium">2x Mie Ayam Bakso Sapi</p>
+                        <p class="ml-auto font-medium">Rp. 75.000</p>
+                    </div>
+                    <div class="border-1 border-border"></div>
+                    <div class="flex items-center">
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                            <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-sm font-semibold mt-3">Minuman (2 item)</p>
+                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
+                    <div class="flex items-center">
+                        <span class="material-symbols-outlined text-violet-600 text-lg mr-1">groups</span>
+                        <p class="text-violet-600 text-xs">Masing-masing</p>
+                        <span class="material-symbols-outlined text-xl ml-auto">person</span>
+                        <p class="text-xs ml-1">2 orang</p>
+                    </div>
+                    <div class="flex">
+                        <p class="font-medium">2x Es Kelapa Jeruk</p>
+                        <p class="ml-auto font-medium">Rp. 56.000</p>
+                    </div>
+                    <div class="border-1 border-border"></div>
+                    <div class="flex items-center">
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                            <div class="flex items-center border-1 border-accent/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-accent/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-accent text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-accent font-medium text-xs">Ayu</p>
+                            </div>
+                            <div class="flex items-center border-1 border-lime-600/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-lime-600 text-xs">Citra</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-tgray ml-auto">Rp. 28.000/orang</p>
+                    </div>
+                </div>
+                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-4">
+                    <div class="flex">
+                        <p class="font-medium">2x Es Campur Tanpa Gula</p>
+                        <p class="ml-auto font-medium">Rp. 28.000</p>
+                    </div>
+                    <div class="border-1 border-border"></div>
+                    <div class="flex items-center">
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                            <div class="flex items-center border-1 border-fuchsia-700/30 w-fit rounded-2xl px-2 py-1">
+                                <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
+                                    <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                                </div>
+                                <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <p class="text-sm font-semibold mt-3">Hasil</p>
+                <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full mt-3">
+                    <p class="text-sm">Rincian pengeluaran kamu</p>
+                    <div class="flex flex-col bg-white p-4 rounded-2xl gap-2 border-1 border-stone-200 w-full">
+                        <div class="flex items-center">
+                            <span class="material-symbols-outlined text-2xl mr-3">receipt_long</span>
+                            <div class="flex flex-col gap-1 w-full">
+                                <div class="flex items-center">
+                                    <p class="text-sm font-semibold">Total Pengeluaran</p>
+                                    <p class="ml-auto">Rp. 208.005</p>
+                                </div>
+                                <div class="border-1 border-border my-1"></div>
+                                <div class="flex">
+                                    <p class="text-sm">Subtotal</p>
+                                    <p class="ml-auto text-sm">Rp. 198.100</p>
+                                </div>
+                                <div class="flex">
+                                    <p class="text-sm">Pajak</p>
+                                    <p class="ml-auto text-sm">Rp. 13.867</p>
+                                </div>
+                                <div class="flex">
+                                    <p class="text-sm">Layanan</p>
+                                    <p class="ml-auto text-sm">Rp. 15.848</p>
+                                </div>
+                                <div class="flex">
+                                    <span class="material-symbols-outlined text-lg text-accent mr-1">percent_discount</span>
+                                    <p class="text-sm">Diskon</p>
+                                    <p class="ml-auto text-accent text-sm ">- Rp. 19.810</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm">Rincian pengeluaran teman</p>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center border-1 border-fuchsia-700/30 rounded-2xl px-2 py-1">
+                            <div class="flex bg-fuchsia-700/10 items-center p-1 rounded-full">
+                                <span class="material-symbols-outlined text-fuchsia-700 text-lg">person</span>
+                            </div>
+                            <p class="ml-2 text-fuchsia-700 text-xs">Budi</p>
+                            <p class="ml-auto text-fuchsia-600 text-sm">Rp. 94.000*</p>
+                        </div>
+                        <div class="flex items-center border-1 border-lime-600/30 rounded-2xl px-2 py-1">
+                            <div class="flex bg-lime-600/10 items-center p-1 rounded-full">
+                                <span class="material-symbols-outlined text-lime-600 text-lg">person</span>
+                            </div>
+                            <p class="ml-2 text-lime-600 text-xs">Citra</p>
+                            <p class="ml-auto text-lime-600 text-sm">Rp. 99.500*</p>
+                        </div>
+                        <p class="text-[10px]">*Sudah termasuk pajak, biaya layanan dan diskon.</p>
+                        <div class="flex bg-accent items-center justify-center py-1 rounded-xl mt-2">
+                            <span class="material-symbols-outlined text-white text-lg mr-2">save</span>
+                            <p class="text-sm text-white">Simpan</p>
+                        </div>
                     </div>
                 </div>
             </div>
