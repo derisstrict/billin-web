@@ -8,6 +8,10 @@ app.debug = True
 def index():
     return render_template('index.html')
 
+@app.route("/join")
+def join():
+    return render_template('join.html')
+
 if __name__ == "__main__":
     server = Server(app.wsgi_app)
     server.watch("templates/*")
