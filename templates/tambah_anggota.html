@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tambah Anggota - Billin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+  <!-- Google Fonts: Plus Jakarta Sans & Material Symbols Outlined -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0" />
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+      user-select: none;
+    }
+    .billin-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (min-width: 768px) {
+      .billin-container {
+        grid-template-columns: 1fr 1.15fr;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen">
+
+  <!-- Top Navbar Ramping (Logo & Teks Seimbang) -->
+  <header class="w-full bg-white border-b border-gray-200">
+    <div style="padding: 10px 24px;" class="w-full flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <img src="{{ url_for('static', filename='img/billin_logo.png') }}" 
+             alt="Logo Billin" 
+             style="width: 32px; height: 32px;"
+             class="object-contain">
+        <span style="font-size: 18px;" class="font-bold text-[#1D9BF0] tracking-tight">BillIn</span>
+      </div>
+
+      <button type="button" class="text-[#1D9BF0] hover:bg-blue-50 p-1.5 rounded-lg transition flex items-center justify-center">
+        <span style="font-size: 22px;" class="material-symbols-outlined">download</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Konten Utama 2 Kolom -->
+  <main class="billin-container">
+
+    <!-- KOLOM KIRI: Undang Link & Tambah Manual -->
+    <div class="space-y-5">
+      <!-- Card 1: Undang via link -->
+      <section class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-5">
+        <div class="flex items-center gap-3.5 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-[#E0F2FE] flex items-center justify-center text-[#1D9BF0] shrink-0">
+            <span class="material-symbols-outlined text-2xl">link</span>
+          </div>
+          <div>
+            <h2 class="font-bold text-[15px] text-gray-900">Undang Melalui Link</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Kirim link ke teman anda untuk bergabung</p>
+          </div>
+        </div>
+
+        <div class="flex items-center bg-[#F3F4F6] rounded-xl px-4 py-3">
+          <input id="link" readonly value="{{ invite_link }}"
+                 class="flex-1 bg-transparent text-sm text-gray-700 font-medium outline-none truncate pr-2">
+          <button type="button" onclick="salinLink()" id="btn-salin" title="Salin Link"
+                  class="text-gray-400 hover:text-[#1D9BF0] transition shrink-0 flex items-center justify-center">
+            <span id="icon-salin" class="material-symbols-outlined text-xl">content_copy</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Card 2: Tambah manual -->
+      <section class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-5">
+        <div class="flex items-center gap-3.5 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-[#E0F2FE] flex items-center justify-center text-[#1D9BF0] shrink-0">
+            <span class="material-symbols-outlined text-2xl">person_add</span>
+          </div>
+          <div>
+            <h2 class="font-bold text-[15px] text-gray-900">Tambah Anggota Manual</h2>
+            <p class="text-xs text-gray-400 mt-0.5">Tambahkan anggota secara manual</p>
+          </div>
+        </div>
+
+        <form method="post" action="{{ url_for('tambah_anggota') }}" class="flex gap-2.5">
+          <input name="nama" required placeholder="Masukkan nama anggota"
+                 class="flex-1 bg-[#F3F4F6] rounded-xl px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#1D9BF0]/30 transition">
+          <button type="submit" class="bg-[#1D9BF0] hover:bg-[#1a8cd8] text-white text-sm font-semibold rounded-xl px-5 py-3 transition shrink-0">
+            Tambah
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <!-- KOLOM KANAN: Pilih Nama Anda -->
+    <form method="post" action="{{ url_for('lanjutkan') }}" class="bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] p-5">
+      <div class="mb-4">
+        <h2 class="font-bold text-[15px] text-gray-900">Pilih Nama Anda</h2>
+        <div class="flex items-center gap-1.5 text-xs text-gray-400 mt-1">
+          <span class="material-symbols-outlined text-sm text-gray-400">info</span>
+          <span>Tambahkan manual jika nama anda belum terdaftar</span>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        {% for a in anggota %}
+        <label style="border-color: #E5E7EB;" class="flex items-center gap-3.5 bg-white rounded-2xl border border-gray-200 p-3.5 {% if not a.pembuat %}cursor-pointer hover:border-blue-200 transition{% endif %}">
+          
+          <!-- Avatar Lingkaran Biru Muda -->
+          <div class="w-11 h-11 rounded-full bg-[#E0F2FE] flex items-center justify-center text-[#1D9BF0] shrink-0">
+            <span class="material-symbols-outlined text-xl">group</span>
+          </div>
+
+          <!-- Nama & Role -->
+          <div class="flex-1 min-w-0">
+            <div class="font-bold text-[15px] text-gray-900 truncate">
+              {{ a.nama }}{% if a.pembuat %} (Anda){% endif %}
+            </div>
+            <div class="text-xs text-gray-400">
+              {{ 'Pembuat' if a.pembuat else 'Anggota' }}
+            </div>
+          </div>
+
+          <!-- Custom Radio Button berbentuk Kotak -->
+          {% if not a.pembuat %}
+          <div class="pr-1">
+            <input type="radio" name="nama_saya" value="{{ a.nama }}" required class="peer sr-only">
+            <div class="w-6 h-6 rounded-md border-[1.5px] border-[#3897F0] peer-checked:bg-[#1D9BF0] peer-checked:border-[#1D9BF0] flex items-center justify-center transition">
+              <span class="material-symbols-outlined text-white text-sm opacity-0 peer-checked:opacity-100 transition">check</span>
+            </div>
+          </div>
+          {% endif %}
+        </label>
+        {% endfor %}
+      </div>
+
+      <!-- Tombol Lanjutkan -->
+      <button type="submit" class="w-full bg-[#1D9BF0] hover:bg-[#1a8cd8] text-white font-bold text-[15px] rounded-xl py-3.5 mt-5 shadow-sm transition">
+        Lanjutkan
+      </button>
+    </form>
+
+  </main>
+
+  <script>
+    function salinLink() {
+      const input = document.getElementById('link');
+      navigator.clipboard.writeText(input.value);
+      
+      const icon = document.getElementById('icon-salin');
+      icon.textContent = 'check';
+      icon.classList.remove('text-gray-400');
+      icon.classList.add('text-green-500');
+      
+      setTimeout(() => {
+        icon.textContent = 'content_copy';
+        icon.classList.remove('text-green-500');
+        icon.classList.add('text-gray-400');
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
