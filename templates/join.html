@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BillIn</title>
+    <title>BillIn - Bergabung</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=download,help,link,person,store,receipt_long,search_off"/>
     <link rel="stylesheet" href="{{url_for('static', filename='css/output.css')}}">
 </head>
-<body class="bg-white font-['Poppins']">
+<body class="bg-white font-['Poppins']" data-initial-token="{{ initial_token }}">
     <div class="w-full">
         <div class="flex items-center p-4">
             <img src="{{url_for('static', filename='img/billin_logo.png')}}" alt="billin_logo" width="50">
@@ -18,18 +18,20 @@
             <span class="material-symbols-outlined text-accent text-2xl ml-auto">download</span>
         </div>
 
-        <div class="flex flex-col items-center px-6 pb-10">
+        <div class="flex flex-col items-center px-6 pb-10 max-w-xl mx-auto w-full">
             <div class="flex items-center justify-center bg-accent/20 rounded-2xl w-32 h-32 mt-8">
                 <span class="material-symbols-outlined text-accent text-8xl">link</span>
             </div>
             <p class="font-semibold text-center mt-6">Bergabung ke Tagihan Kelompok</p>
             <p class="text-gray-400 text-center text-sm mt-1">Bergabung melalui link yang dibagikan oleh teman anda</p>
+
             <!-- Link -->
             <div class="flex items-center w-full bg-gray-100 rounded-lg p-3 mt-6">
                 <input id="linkInput" type="text" placeholder="Masukkan link undangan"
                     class="flex-1 min-w-0 bg-transparent text-sm outline-none placeholder:text-gray-400">
-                <button id="btnCari" type="button" class="bg-accent text-white text-xs rounded px-4 py-1 ml-2">Cari</button>
+                <button id="btnCari" type="button" class="bg-accent text-white text-xs rounded px-4 py-1 ml-2 disabled:opacity-60">Cari</button>
             </div>
+            <p id="formError" class="hidden w-full text-xs text-red-500 mt-2"></p>
 
             <!-- Hasil pencarian -->
             <div id="stateEmpty" class="flex flex-col items-center justify-center w-full bg-gray-100 rounded-xl py-16 mt-2">
@@ -67,6 +69,10 @@
                             <p id="pajakValue" class="ml-auto"></p>
                         </div>
                         <div class="flex">
+                            <p id="layananLabel">Layanan</p>
+                            <p id="layananValue" class="ml-auto"></p>
+                        </div>
+                        <div class="flex">
                             <p id="diskonLabel">Diskon</p>
                             <p id="diskonValue" class="ml-auto"></p>
                         </div>
@@ -77,45 +83,42 @@
                     </div>
                     <div class="flex items-end mt-3">
                         <div class="flex flex-col">
-                        <div id="memberAvatars" class="flex -space-x-2"></div>
-                        <p id="groupMembers" class="text-[8px] text-gray-400 mt-1"></p>
+                            <div id="memberAvatars" class="flex -space-x-2"></div>
+                            <p id="groupMembers" class="text-[8px] text-gray-400 mt-1"></p>
+                        </div>
                     </div>
-                        <button type="button" class="bg-accent text-white text-xs rounded-md px-5 py-2 ml-auto">Bergabung</button>
-                    </div>
+                </div>
+
+                <div class="flex flex-col bg-white rounded-lg p-4 gap-2">
+                    <p class="font-semibold">Nama Kamu</p>
+                    <input id="nameInput" type="text" maxlength="40" placeholder="Masukkan nama kamu"
+                        class="w-full bg-gray-100 rounded-lg p-3 text-sm outline-none placeholder:text-gray-400">
+                    <p id="joinHint" class="hidden text-xs text-gray-400"></p>
+                    <button id="btnJoin" type="button"
+                        class="bg-accent text-white text-sm rounded-md px-5 py-2 mt-1 disabled:opacity-60">Bergabung</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
 <script>
-    const groups = {
-        "www.linkundanganmakan.com": {
-            name: "Tan-panama Coffe",
-            creator: "Melinda",
-            members: [
-                { name: "Ayu Dewi", photo: "{{url_for('static', filename='img/profile_user.jpg')}}" },
-                { name: "Budi",     photo: "" },
-                { name: "Citra",    photo: "" },
-                { name: "Dedi",     photo: "" }
-            ],
-            tax: 14,
-            discount: 6,
-            items: [
-                { name: "Nasi Goreng Babi",  price: 30000, qty: 3 },
-                { name: "Nasi Goreng Sayur", price: 25000, qty: 2 },
-                { name: "Nasi Goreng Ayam",  price: 28000, qty: 3 },
-                { name: "Nasi Goreng Aja",   price: 22000, qty: 2 }
-            ]
-        }
-    };
-
+    const INITIAL_TOKEN = {{ initial_token|tojson }};
     const input = document.getElementById('linkInput');
+    const nameInput = document.getElementById('nameInput');
+    const joinHint = document.getElementById('joinHint');
+    const btnCari = document.getElementById('btnCari');
+    const btnJoin = document.getElementById('btnJoin');
+    const formError = document.getElementById('formError');
+
     const states = {
         empty:    document.getElementById('stateEmpty'),
         notFound: document.getElementById('stateNotFound'),
         found:    document.getElementById('stateFound')
     };
-    
+
+    let currentGroup = null;
+    let existingMemberId = null;
+
     function show(name) {
         for (const key in states) {
             const active = key === name;
@@ -124,86 +127,63 @@
         }
     }
 
+    function memberStorageKey(token) {
+        return 'billin.member.' + token;
+    }
+
     function rupiah(angka) {
-        return 'Rp.' + Math.round(angka).toLocaleString('id-ID');
+        return 'Rp.' + Math.round(Number(angka) || 0).toLocaleString('id-ID');
     }
 
-    function renderRingkasan(group) {
-        const jumlahItem = group.items.reduce((total, i) => total + i.qty, 0);
-        const subtotal   = group.items.reduce((total, i) => total + i.price * i.qty, 0);
-        const pajak      = subtotal * group.tax / 100;
-        const diskon     = subtotal * group.discount / 100;
-        const grandTotal = subtotal + pajak - diskon;
-
-        document.getElementById('subtotalLabel').textContent = 'Subtotal (' + jumlahItem + ' Item)';
-        document.getElementById('subtotalValue').textContent = rupiah(subtotal);
-
-        document.getElementById('pajakLabel').textContent = 'Pajak (' + group.tax + '%)';
-        document.getElementById('pajakValue').textContent = rupiah(pajak);
-
-        document.getElementById('diskonLabel').textContent = 'Diskon (' + group.discount + '%)';
-        document.getElementById('diskonValue').textContent = rupiah(diskon);
-
-        document.getElementById('grandTotalValue').textContent = rupiah(grandTotal);
+    function qtyLabel(qty) {
+        const number = Number(qty);
+        return Number.isInteger(number) ? String(number) : String(number);
     }
 
-    function cari() {
-        const link = input.value.trim();
+    function setText(id, value) {
+        document.getElementById(id).textContent = value;
+    }
 
-        if (!link) {
-            show('empty');
-            return;
+    function setError(message) {
+        formError.textContent = message || '';
+        formError.classList.toggle('hidden', !message);
+    }
+
+    async function errorMessage(response, fallback) {
+        try {
+            const data = await response.json();
+            return data?.error?.message || fallback;
+        } catch (_) {
+            return fallback;
         }
-
-        const group = groups[link];
-        if (!group) {
-            show('notFound');
-            return;
-        }
-
-        document.getElementById('groupName').textContent = group.name;
-        document.getElementById('groupCreator').textContent = 'Dibuat oleh ' + group.creator;
-        renderMembers(group.members);
-
-        renderRingkasan(group);
-
-        show('found');
     }
 
     function renderMembers(members) {
-    const box = document.getElementById('memberAvatars');
-    box.innerHTML = '';
+        const box = document.getElementById('memberAvatars');
+        box.innerHTML = '';
 
-    const circle = 'flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 border-2 border-white overflow-hidden';
+        const circle = 'flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 border-2 border-white overflow-hidden';
 
-    // Maksimal 2 user ditampilkan
-    members.slice(0, 2).forEach(m => {
-        const el = document.createElement('div');
-        el.className = circle;
-        el.title = m.name;
+        members.slice(0, 2).forEach(member => {
+            const el = document.createElement('div');
+            el.className = circle;
+            el.title = member.name;
 
-        if (m.photo) {
-            const img = document.createElement('img');
-            img.src = m.photo;
-            img.alt = m.name;
-            img.className = 'w-full h-full object-cover';
-            el.appendChild(img);
-        } else {
             const icon = document.createElement('span');
             icon.className = 'material-symbols-outlined text-gray-400 text-lg';
             icon.textContent = 'person';
             el.appendChild(icon);
-        }
-        box.appendChild(el);
-    });
+            box.appendChild(el);
+        });
 
-    const sisa = members.length - 2;
-        if (sisa > 0) {
+        const remaining = members.length - 2;
+        if (remaining > 0) {
             const more = document.createElement('div');
             more.className = circle + ' text-[10px] text-gray-400';
-            more.textContent = sisa + '+';
+            more.textContent = remaining + '+';
             box.appendChild(more);
         }
+
         const text = document.getElementById('groupMembers');
         if (members.length === 0) {
             text.textContent = 'Belum ada anggota';
@@ -214,7 +194,162 @@
         }
     }
 
-    document.getElementById('btnCari').addEventListener('click', cari);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') cari(); });
+    function renderRingkasan(group) {
+        const receipt = group.receipt || {};
+        const items = Array.isArray(receipt.items) ? receipt.items : [];
+        const jumlahItem = items.reduce((total, item) => total + Number(item.qty || 0), 0);
+        const subtotal = Number(receipt.subtotal) || 0;
+        const pajak = Number(receipt.tax) || 0;
+        const layanan = Number(receipt.service_charge) || 0;
+        const diskon = Number(receipt.discounts) || 0;
+        const grandTotal = Number(receipt.grand_total) || 0;
+
+        setText('subtotalLabel', 'Subtotal (' + qtyLabel(jumlahItem) + ' Item)');
+        setText('subtotalValue', rupiah(subtotal));
+
+        const pajakPersen = subtotal > 0 ? Math.round((pajak / subtotal) * 100) : 0;
+        setText('pajakLabel', pajakPersen > 0 ? 'Pajak (' + pajakPersen + '%)' : 'Pajak');
+        setText('pajakValue', rupiah(pajak));
+
+        setText('layananLabel', 'Layanan');
+        setText('layananValue', rupiah(layanan));
+
+        const diskonPersen = subtotal > 0 ? Math.round((diskon / subtotal) * 100) : 0;
+        setText('diskonLabel', diskonPersen > 0 ? 'Diskon (' + diskonPersen + '%)' : 'Diskon');
+        setText('diskonValue', diskon > 0 ? '- ' + rupiah(diskon) : rupiah(0));
+
+        setText('grandTotalValue', rupiah(grandTotal));
+    }
+
+    function renderGroup(group) {
+        const receipt = group.receipt || {};
+        const members = Array.isArray(group.members) ? group.members : [];
+        const host = members.find(member => member.role === 'host');
+
+        setText('groupName', receipt.merchant_name || 'Tagihan Tanpa Nama');
+        setText('groupCreator', 'Dibuat oleh ' + (host ? host.name : 'Pembuat'));
+        renderMembers(members);
+        renderRingkasan(group);
+
+        existingMemberId = localStorage.getItem(memberStorageKey(group.token));
+        const existing = existingMemberId
+            ? members.find(member => member.id === existingMemberId)
+            : null;
+
+        if (existing) {
+            nameInput.value = existing.name;
+            nameInput.disabled = true;
+            btnJoin.textContent = 'Lanjut ke Tagihan';
+            joinHint.textContent = 'Kamu sudah bergabung sebagai ' + existing.name + '.';
+            joinHint.classList.remove('hidden');
+        } else {
+            existingMemberId = null;
+            nameInput.disabled = false;
+            btnJoin.textContent = 'Bergabung';
+            joinHint.classList.add('hidden');
+        }
+    }
+
+    async function cari() {
+        setError('');
+        const link = input.value.trim();
+
+        if (!link) {
+            show('empty');
+            return;
+        }
+
+        btnCari.disabled = true;
+        btnCari.textContent = 'Mencari...';
+
+        try {
+            const response = await fetch('/api/groups/resolve?link=' + encodeURIComponent(link));
+            if (response.status === 404) {
+                currentGroup = null;
+                show('notFound');
+                return;
+            }
+            if (!response.ok) {
+                throw new Error(await errorMessage(response, 'Gagal mencari tagihan.'));
+            }
+
+            const data = await response.json();
+            currentGroup = data.group;
+            renderGroup(currentGroup);
+            show('found');
+        } catch (error) {
+            currentGroup = null;
+            show('notFound');
+            setError(error.message || 'Gagal mencari tagihan. Periksa koneksi anda.');
+        } finally {
+            btnCari.disabled = false;
+            btnCari.textContent = 'Cari';
+        }
+    }
+
+    async function bergabung() {
+        if (!currentGroup) {
+            return;
+        }
+
+        if (existingMemberId) {
+            window.location.href = '/split/' + encodeURIComponent(currentGroup.token);
+            return;
+        }
+
+        setError('');
+        const name = nameInput.value.trim();
+        if (!name) {
+            setError('Masukkan nama kamu terlebih dahulu.');
+            nameInput.focus();
+            return;
+        }
+
+        btnJoin.disabled = true;
+        btnJoin.textContent = 'Bergabung...';
+
+        try {
+            const response = await fetch(
+                '/api/groups/' + encodeURIComponent(currentGroup.token) + '/members',
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name })
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(await errorMessage(response, 'Gagal bergabung ke tagihan.'));
+            }
+
+            const data = await response.json();
+            localStorage.setItem(memberStorageKey(currentGroup.token), data.member_id);
+            localStorage.setItem('billin.memberName', name);
+            window.location.href = '/split/' + encodeURIComponent(currentGroup.token);
+        } catch (error) {
+            setError(error.message || 'Gagal bergabung ke tagihan.');
+            btnJoin.disabled = false;
+            btnJoin.textContent = 'Bergabung';
+        }
+    }
+
+    btnCari.addEventListener('click', cari);
+    btnJoin.addEventListener('click', bergabung);
+    input.addEventListener('keydown', event => {
+        if (event.key === 'Enter') cari();
+    });
+    input.addEventListener('input', () => setError(''));
+    nameInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter') bergabung();
+    });
+
+    const queryLink = new URLSearchParams(window.location.search).get('link');
+    if (queryLink) {
+        input.value = queryLink;
+        cari();
+    } else if (INITIAL_TOKEN) {
+        input.value = window.location.origin + '/join/' + encodeURIComponent(INITIAL_TOKEN);
+        cari();
+    }
 </script>
 </html>
