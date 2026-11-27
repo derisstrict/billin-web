@@ -511,6 +511,55 @@ def update_assignments(token: str, member_id: str):
     return jsonify({"group": _group_payload(data)})
 
 
+@app.route("/api/groups/<token>/receipt", methods=["PUT"])
+def update_receipt(token: str):
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        payload = {}
+
+    member_id = str(payload.get("member_id") or "").strip()
+    raw_receipt = payload.get("receipt")
+
+    def mutate(data: dict) -> None:
+        member = _find_member(data, member_id) if member_id else None
+        if member is None or member.get("role") != "host":
+            raise ApiError(403, "Hanya host yang dapat mengubah struk.")
+
+        if not isinstance(raw_receipt, dict) or not isinstance(
+            raw_receipt.get("items"), list
+        ):
+            raise ApiError(400, "Data struk tidak valid.")
+
+        receipt = _normalize_receipt(raw_receipt)
+
+        old_items = data.get("receipt", {}).get("items", [])
+        old_assignments = data.get("assignments", {})
+        id_to_assignees: dict[int, list[str]] = {}
+        for old_index, old_item in enumerate(old_items):
+            if not isinstance(old_item, dict):
+                continue
+            item_id = old_item.get("id")
+            assignees = old_assignments.get(str(old_index))
+            if item_id is not None and assignees:
+                id_to_assignees[item_id] = list(assignees)
+
+        new_assignments: dict[str, list[str]] = {}
+        for new_index, new_item in enumerate(receipt["items"]):
+            assignees = id_to_assignees.get(new_item["id"])
+            if assignees:
+                new_assignments[str(new_index)] = list(assignees)
+
+        data["receipt"] = receipt
+        data["assignments"] = new_assignments
+
+    result = _mutate_group(token, mutate)
+    if result is None:
+        raise ApiError(404, "Tagihan tidak ditemukan.")
+
+    data, _ = result
+    return jsonify({"group": _group_payload(data)})
+
+
 if __name__ == "__main__":
     server = Server(app.wsgi_app)
     server.watch("templates/*")
