@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=store,edit_square,percent_discount,manage_accounts,person,workspaces,groups,receipt_long,save,download"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=store,edit_square,percent_discount,content_copy,person,workspaces,groups,receipt_long,save,download"/>
     <link rel="stylesheet" href="{{url_for('static', filename='css/output.css')}}">
 </head>
 <body class="bg-gray-100">
@@ -34,7 +34,6 @@
                                 <p id="storeName" class="font-semibold">Memuat tagihan...</p>
                                 <p id="storeDate" class="text-xs text-tgray"></p>
                             </div>
-                            <span id="editReceipt" class="material-symbols-outlined text-accent text-xl cursor-pointer">edit_square</span>
                         </div>
                         <div class="flex mt-5">
                             <p class="text-sm">Grand Total</p>
@@ -66,8 +65,8 @@
                 <div class="flex flex-col bg-white p-4 rounded-2xl border-1 border-stone-200 w-full mt-3">
                     <div class="flex w-full items-center">
                         <div id="btnKelola" class="flex gap-1 items-center bg-accent rounded-xl px-3 py-1 cursor-pointer">
-                            <span class="material-symbols-outlined text-white text-xl">manage_accounts</span>
-                            <p class="text-white text-sm">Kelola</p>
+                            <span class="material-symbols-outlined text-white text-xl">content_copy</span>
+                            <p class="text-white text-sm">Copy link</p>
                         </div>
                         <div class="flex items-center ml-auto">
                             <span class="material-symbols-outlined text-xl">person</span>
@@ -115,10 +114,6 @@
                     <p class="text-sm">Rincian pengeluaran teman</p>
                     <div id="friendsList" class="flex flex-col gap-2"></div>
                     <p class="text-[10px]">*Sudah termasuk pajak, biaya layanan dan diskon.</p>
-                    <div id="btnSimpan" class="flex bg-accent items-center justify-center py-1 rounded-xl mt-2 cursor-pointer">
-                        <span class="material-symbols-outlined text-white text-lg mr-2">save</span>
-                        <p class="text-sm text-white">Simpan</p>
-                    </div>
                 </div>
             </div>
 
@@ -507,14 +502,18 @@
         }
     }
 
+    async function copyToClipboard(text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            showToast("Link telah dicopy")
+        } catch (err) {
+            showToast(err);
+        }
+    }
+
     document.getElementById('btnKelola').addEventListener('click', () => {
-        showToast('Kelola anggota dari aplikasi BillIn.');
-    });
-    document.getElementById('btnSimpan').addEventListener('click', () => {
-        showToast('Pilihan sudah tersimpan otomatis.');
-    });
-    document.getElementById('editReceipt').addEventListener('click', () => {
-        showToast('Edit struk tersedia dari aplikasi BillIn.');
+        const currentUrl = window.location.href;
+        copyToClipboard(currentUrl);
     });
 
     if (!memberId) {
